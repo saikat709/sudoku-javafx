@@ -6,8 +6,7 @@ import com.saikat.sudoku.problemdomain.SudokuGame;
 import java.io.*;
 
 public class LocalStorageImpl implements IStorage {
-    private static File GAME_DATA_FILE = new File(System.getProperty("user.dir"), "game_data.txt");
-
+    private static final File GAME_DATA_FILE = new File(System.getProperty("user.dir"), "game_data.txt");
 
     @Override
     public void updateGameData(SudokuGame game) throws IOException {
@@ -19,7 +18,6 @@ public class LocalStorageImpl implements IStorage {
         } catch (IOException e){
             throw new IOException("Unable to save game data to file");
         }
-
     }
 
     @Override
@@ -27,10 +25,8 @@ public class LocalStorageImpl implements IStorage {
         FileInputStream fileInputStream = new FileInputStream(GAME_DATA_FILE);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         try {
-            SudokuGame gameState = (SudokuGame) objectInputStream.readObject();
-            return gameState;
+            return (SudokuGame) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

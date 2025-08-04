@@ -19,8 +19,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 
-public class UserInterface implements  IUserInterfaceContract.view,
-        EventHandler<KeyEvent> {
+public class UserInterface implements  IUserInterfaceContract.view, EventHandler<KeyEvent> {
 
     private final Stage stage;
     private final Group group;
@@ -46,6 +45,10 @@ public class UserInterface implements  IUserInterfaceContract.view,
         this.stage = stage;
         this.group = new Group();
         this.textFieldMap = new HashMap<>();
+
+        this.stage.setMinWidth(WINDOW_X);
+        this.stage.setMinHeight(WINDOW_Y);
+
         initializeUserInterface();
     }
 
@@ -57,7 +60,6 @@ public class UserInterface implements  IUserInterfaceContract.view,
         drawBoard(group);
         drawTextFields(group);
         stage.show();
-
         System.out.println("User interface initialized!");
     }
 
@@ -72,7 +74,7 @@ public class UserInterface implements  IUserInterfaceContract.view,
         int index = 0;
 
         while( index < 9 ){
-            int thickness = 1;
+            int thickness = 5;
             if ( index == 2 || index == 5 ){
                 thickness = 3;
             }  else {
@@ -80,9 +82,9 @@ public class UserInterface implements  IUserInterfaceContract.view,
             }
 
             Rectangle verticalLine = getLine(xAndY + index * 64, BOARD_PADDING, BOARD_X_AND_Y,  thickness );
-            Rectangle horizontalLine = getLine( BOARD_PADDING,  xAndY + index * 64,  BOARD_X_AND_Y, thickness );
+            Rectangle horizontalLine = getLine( BOARD_PADDING,  xAndY + index * 100,  BOARD_X_AND_Y, thickness );
 
-            group.getChildren().addAll(verticalLine, horizontalLine);
+            // group.getChildren().addAll(verticalLine, horizontalLine);
             index++;
         }
     }
@@ -93,7 +95,7 @@ public class UserInterface implements  IUserInterfaceContract.view,
         rectangle.setY(y);
         rectangle.setHeight(height);
         rectangle.setWidth(width);
-        rectangle.setFill(Color.BLACK);
+        rectangle.setFill(Color.ALICEBLUE);
 
         return rectangle;
     }
@@ -183,7 +185,7 @@ public class UserInterface implements  IUserInterfaceContract.view,
                 if ( "0".equals(value) ) value = "";
                 textField.setText(value);
                 if ( game.getGameState() == GameState.NEW ){
-                    if ( value.equals("") ){
+                    if (value.isEmpty()){
                         textField.setStyle("-fx-opacity: 1;");
                         textField.setDisable(false);
                     } else {
